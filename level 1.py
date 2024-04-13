@@ -6,18 +6,15 @@ lives = 5
 
 wn = turtle.Screen()
 wn.title("Catch the letter")
-wn.bgcolor("black")
-wn.setup(width=2515, height=1536)
+wn.bgcolor("green")
+wn.bgpic("hall.png")
+wn.setup(width=1280, height=720)
 wn.tracer(0)
-
-wn.register_shape("harry.png")
-wn.register_shape("letter.png")
-wn.register_shape("uncle.png")
 
 # Player
 player = turtle.Turtle()
 player.speed(20)
-#player.shape("harry.png")
+player.shape("square")
 player.color("white")
 player.penup()
 player.goto(0, -250)
@@ -30,10 +27,10 @@ letterS = []
 for _ in range(20):
     letter = turtle.Turtle()
     letter.speed(0)
-    letter.shape("letter.png")
+    letter.shape("circle")
     letter.color("blue")
     letter.penup()
-    letter.goto(-500, 250)
+    letter.goto(-100, 250)
     letter.speed = random.randint(1,4)
     letterS.append(letter)
 
@@ -47,7 +44,7 @@ for _ in range(20):
     uncle.shape("circle")
     uncle.color("red")
     uncle.penup()
-    uncle.goto(500, 250)
+    uncle.goto(100, 250)
     uncle.speed = random.randint(1,4)
     uncleS.append(uncle)
 
@@ -55,7 +52,7 @@ for _ in range(20):
 pen = turtle.Turtle()
 pen.hideturtle()
 pen.speed(0)
-pen.shape("uncle.png")
+pen.shape("square")
 pen.color("white")
 pen.penup()
 pen.goto(0, 260)
@@ -179,5 +176,7 @@ wn.mainloop()
 
     
 wn.mainloop()
+
+
 
 
