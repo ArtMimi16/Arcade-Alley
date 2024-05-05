@@ -94,7 +94,7 @@ class Bird(pygame.sprite.Sprite):
 class Pipe(pygame.sprite.Sprite):
 	def __init__(self, x, y, position):
 		pygame.sprite.Sprite.__init__(self)
-		self.image = pygame.image.load('pipe.png')
+		self.image = pygame.image.load('tower.png')
 		self.rect = self.image.get_rect()
 		self.score_counted = False
 		#position 1 is from the top, -1 is from the bottom
