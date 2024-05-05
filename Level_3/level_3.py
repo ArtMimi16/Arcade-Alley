@@ -1,8 +1,13 @@
 import pygame
 from pygame.locals import *
 import random
+from pygame import mixer
 
 pygame.init()
+
+pygame.init()
+mixer.music.load('hippogriff.mp3')
+mixer.music.play(-1)
 
 clock = pygame.time.Clock()
 fps = 60
