@@ -31,7 +31,6 @@ font = pygame.font.SysFont(None, 55)
 
 #load images
 bg = pygame.image.load('bg.png')
-ground_img = pygame.image.load('ground.png')
 
 
 class Bird(pygame.sprite.Sprite):
@@ -114,8 +113,6 @@ flappy = Bird(100, int(screen_height / 2))
 
 bird_group.add(flappy)
 
-
-
 run = True
 while run:
 
@@ -127,9 +124,6 @@ while run:
 	bird_group.draw(screen)
 	bird_group.update()
 	pipe_group.draw(screen)
-
-	#draw the ground
-	screen.blit(ground_img, (ground_scroll, 768))
 
 	#look for collision
 	for bird in bird_group:
