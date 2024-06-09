@@ -620,9 +620,9 @@ def main_menu():
 
 # Function for level selection menu
 def level_select():
-    level1_button = Button('level10.png', (WIDTH//2 - 540, HEIGHT//2 - 300), 215, 215)
-    level2_button = Button('level20.png', (WIDTH//2 - 230, HEIGHT//2 - 180), 215, 215)
-    level3_button = Button('level30.png', (WIDTH//2 + 100, HEIGHT//2 - 85), 215, 215)
+    level1_button = Button('level1.png', (WIDTH//2 - 540, HEIGHT//2 - 300), 215, 215)
+    level2_button = Button('level2.png', (WIDTH//2 - 230, HEIGHT//2 - 180), 215, 215)
+    level3_button = Button('level3.png', (WIDTH//2 + 100, HEIGHT//2 - 85), 215, 215)
 
     while True:
         screen.blit(level_menu, (0, 0))
