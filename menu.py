@@ -10,8 +10,8 @@ pygame.init()
 WIDTH, HEIGHT = 1272, 705
 
 def game_over_menu(level):
-    replay_button = Button('replay_button.png', (WIDTH//2 - 250, HEIGHT//2))
-    main_menu_button = Button('main_menu_button.png', (WIDTH//2 + 50, HEIGHT//2))
+    replay_button = Button('button.png', (WIDTH//2 - 250, HEIGHT//2))
+    main_menu_button = Button('button.png', (WIDTH//2 + 50, HEIGHT//2))
 
     while True:
         screen.blit(background_image, (0, 0))
@@ -204,16 +204,16 @@ def level1():
                     if harry_mask_right.overlap(pygame.mask.from_surface(fly.image), relative_position):
                         action = game_over_menu(3)
                         if action == 'replay':
-                            level3()
+                            level1()
                         elif action == 'main_menu':
-                            main()
+                            all()
                 else:
                     if harry_mask_left.overlap(pygame.mask.from_surface(fly.image), relative_position):
                         action = game_over_menu(3)
                         if action == 'replay':
-                            level3()
+                            level1()
                         elif action == 'main_menu':
-                            main()
+                            all()
             draw(player, elapsed_time, flies, special_flies, score)
 
         
@@ -361,9 +361,9 @@ def level2():
                 if player_mask.overlap(obstacle.mask, offset):
                     action = game_over_menu(3)
                     if action == 'replay':
-                        level3()
+                        level2()
                     elif action == 'main_menu':
-                        main()
+                        all()
 
         # Redraw the background
         screen.blit(BG, (0, 0))
@@ -380,8 +380,6 @@ def level2():
             obstacle.draw(screen)
 
         pygame.display.flip()
-
-    pygame.quit()
 
         
 def level3():
@@ -466,7 +464,6 @@ def level3():
                 self.image = pygame.transform.rotate(self.images[self.index])
 
 
-
     class Pipe(pygame.sprite.Sprite):
         def __init__(self, x, y, position):
             pygame.sprite.Sprite.__init__(self)
@@ -519,6 +516,11 @@ def level3():
         if flappy.rect.bottom >= 768:
             game_over = True
             flying = False
+            action = game_over_menu(3)
+            if action == 'replay':
+                level3()
+            elif action == 'main_menu':
+                main()
 
 
         if game_over == False and flying == True:
@@ -543,11 +545,7 @@ def level3():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                action = game_over_menu(3)
-                if action == 'replay':
-                    level3()
-                elif action == 'main_menu':
-                    main()
+                run == False
             if event.type == pygame.MOUSEBUTTONDOWN and flying == False and game_over == False:
                 flying = True
 
@@ -555,8 +553,6 @@ def level3():
         screen.blit(score_text, (10, 10))
 
         pygame.display.update()
-
-    pygame.quit()
 
 
 # Set up the screen dimensions
