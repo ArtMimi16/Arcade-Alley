@@ -8,12 +8,12 @@ import tkinter as tk
 pygame.init()
 
 WIDTH, HEIGHT = 1272, 705
-font_game_over = pygame.font.Font('GloriousChristmas-BLWWB.ttf', 100)
-font_score = pygame.font.Font('GloriousChristmas-BLWWB.ttf', 36)
+font_game_over = pygame.font.Font('Pygame/GloriousChristmas-BLWWB.ttf', 100)
+font_score = pygame.font.Font('Pygame/GloriousChristmas-BLWWB.ttf', 36)
 
 def game_over_menu(level):
-    replay_button = Button('replay_button.png', (WIDTH//2 - 210, HEIGHT//2 + 100), 150, 150)
-    main_menu_button = Button('menu_button.png', (WIDTH//2 + 20, HEIGHT//2 + 100), 150, 150)
+    replay_button = Button('Pygame/replay_button.png', (WIDTH//2 - 210, HEIGHT//2 + 100), 150, 150)
+    main_menu_button = Button('Pygame/menu_button.png', (WIDTH//2 + 20, HEIGHT//2 + 100), 150, 150)
 
     while True:
         screen.blit(map, (0, 0))
@@ -38,7 +38,7 @@ def game_over_menu(level):
 
 def level1():
     WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Space Dodge")
+    pygame.display.set_caption("The Philosopher's Stone")
 
     pygame.init()
     mixer.music.load('level_1/key.mp3')
@@ -228,7 +228,7 @@ def level2():
     mixer.music.play(-1)
 
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Car")
+    pygame.display.set_caption("The Chamber of Secrets")
     BG = pygame.transform.scale(pygame.image.load("level_2/bg.jpg"), (WIDTH, HEIGHT))
     fps = 60
     white = [255, 255, 255]
@@ -394,7 +394,7 @@ def level3():
     player_height = 132
 
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption('Flappy Bird')
+    pygame.display.set_caption('The Prisoner of Azkaban')
 
 
     #define game variables
@@ -571,9 +571,9 @@ pygame.display.set_caption("Game Menu")
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 # Load background image
-background_image = pygame.transform.scale(pygame.image.load("back.jpg"), (WIDTH, HEIGHT))
-map = pygame.transform.scale(pygame.image.load("fire.jpg"),(WIDTH, HEIGHT))
-level_menu = pygame.transform.scale(pygame.image.load("level_menu.png"),(WIDTH, HEIGHT))
+background_image = pygame.transform.scale(pygame.image.load('Pygame/back.jpg'), (WIDTH, HEIGHT))
+map = pygame.transform.scale(pygame.image.load('Pygame/fire.jpg'),(WIDTH, HEIGHT))
+level_menu = pygame.transform.scale(pygame.image.load('Pygame/level_menu.png'),(WIDTH, HEIGHT))
 
 # Function to display text on the screen
 def draw_text(text, font, color, x, y):
@@ -597,7 +597,7 @@ class Button:
 
 # Function for the main menu
 def main_menu():
-    play_button = Button('button2.png', (150, 470), 215, 145)
+    play_button = Button('Pygame/button2.png', (150, 470), 215, 145)
 
     while True:
         screen.blit(background_image, (0, 0))
@@ -620,9 +620,9 @@ def main_menu():
 
 # Function for level selection menu
 def level_select():
-    level1_button = Button('level1.png', (WIDTH//2 - 540, HEIGHT//2 - 300), 215, 215)
-    level2_button = Button('level2.png', (WIDTH//2 - 230, HEIGHT//2 - 180), 215, 215)
-    level3_button = Button('level3.png', (WIDTH//2 + 100, HEIGHT//2 - 85), 215, 215)
+    level1_button = Button('Pygame/level1.png', (WIDTH//2 - 540, HEIGHT//2 - 300), 215, 215)
+    level2_button = Button('Pygame/level2.png', (WIDTH//2 - 230, HEIGHT//2 - 180), 215, 215)
+    level3_button = Button('Pygame/level3.png', (WIDTH//2 + 100, HEIGHT//2 - 85), 215, 215)
 
     while True:
         screen.blit(level_menu, (0, 0))
