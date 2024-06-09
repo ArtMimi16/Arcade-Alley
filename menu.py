@@ -8,14 +8,16 @@ import tkinter as tk
 pygame.init()
 
 WIDTH, HEIGHT = 1272, 705
+font_game_over = pygame.font.Font('GloriousChristmas-BLWWB.ttf', 100)
+font_score = pygame.font.Font('GloriousChristmas-BLWWB.ttf', 36)
 
 def game_over_menu(level):
-    replay_button = Button('button.png', (WIDTH//2 - 250, HEIGHT//2))
-    main_menu_button = Button('button.png', (WIDTH//2 + 50, HEIGHT//2))
+    replay_button = Button('replay_button.png', (WIDTH//2 - 210, HEIGHT//2 + 100), 150, 150)
+    main_menu_button = Button('menu_button.png', (WIDTH//2 + 20, HEIGHT//2 + 100), 150, 150)
 
     while True:
-        screen.blit(background_image, (0, 0))
-        draw_text('Game Over', font, WHITE, WIDTH // 2, HEIGHT // 2 - 100)
+        screen.blit(map, (0, 0))
+        draw_text('Game Over', font_game_over, WHITE, WIDTH // 2 - 15, HEIGHT // 2)
 
         # Draw Replay and Main Menu buttons
         replay_button.draw(screen)
@@ -56,7 +58,6 @@ def level1():
     SPECIAL_FLY_HEIGHT = 100
     SPECIAL_FLY_VEL = 5
 
-    FONT = pygame.font.SysFont("comicsans", 30)
 
     def load_and_scale_image(image_path, width, height):
         image = pygame.image.load(image_path).convert_alpha()
@@ -79,8 +80,8 @@ def level1():
     def draw(player, elapsed_time, flies, special_flies, score):
         WIN.blit(BG, (0, 0))
 
-        time_text = FONT.render(f"Time: {round(elapsed_time)}s", 1, "white")
-        score_text = FONT.render(f"Score: {score}", 1, "white")
+        time_text = font_score.render(f"Time: {round(elapsed_time)}s", 1, "white")
+        score_text = font_score.render(f"Score: {score}", 1, "white")
 
         WIN.blit(time_text, (10, 10))
         WIN.blit(score_text, (10, 50))
@@ -202,14 +203,16 @@ def level1():
 
                 if player.direction == 'right':
                     if harry_mask_right.overlap(pygame.mask.from_surface(fly.image), relative_position):
-                        action = game_over_menu(3)
+                        mixer.music.stop()
+                        action = game_over_menu(1)
                         if action == 'replay':
                             level1()
                         elif action == 'main_menu':
                             all()
                 else:
                     if harry_mask_left.overlap(pygame.mask.from_surface(fly.image), relative_position):
-                        action = game_over_menu(3)
+                        mixer.music.stop()
+                        action = game_over_menu(1)
                         if action == 'replay':
                             level1()
                         elif action == 'main_menu':
@@ -231,7 +234,6 @@ def level2():
     BG = pygame.transform.scale(pygame.image.load("level_2/bg.jpg"), (WIDTH, HEIGHT))
     fps = 60
     white = [255, 255, 255]
-    font = pygame.font.Font('freesansbold.ttf', 16)
     timer = pygame.time.Clock()
 
     # Load the floor image
@@ -359,7 +361,8 @@ def level2():
                 # Perform pixel-perfect collision detection
                 offset = (obstacle.rect.left - player_rect.left, obstacle.rect.top - player_rect.top)
                 if player_mask.overlap(obstacle.mask, offset):
-                    action = game_over_menu(3)
+                    mixer.music.stop()
+                    action = game_over_menu(2)
                     if action == 'replay':
                         level2()
                     elif action == 'main_menu':
@@ -405,7 +408,6 @@ def level3():
     pipe_gap = 270
     pipe_frequency = 1500 #milliseconds
     last_pipe = pygame.time.get_ticks() - pipe_frequency
-    font = pygame.font.SysFont(None, 55)
 
 
     #load images
@@ -508,6 +510,12 @@ def level3():
             for pipe in pipe_group:
                 if pygame.sprite.collide_mask(bird, pipe):
                     game_over = True
+                    mixer.music.stop()
+                    action = game_over_menu(3)
+                    if action == 'replay':
+                        level3()    
+                    elif action == 'main_menu':
+                        main()
                 elif pipe.rect.right < bird.rect.left and not pipe.score_counted:
                     score += 0.5
                     pipe.score_counted = True
@@ -516,6 +524,7 @@ def level3():
         if flappy.rect.bottom >= 768:
             game_over = True
             flying = False
+            mixer.music.stop()
             action = game_over_menu(3)
             if action == 'replay':
                 level3()
@@ -549,7 +558,7 @@ def level3():
             if event.type == pygame.MOUSEBUTTONDOWN and flying == False and game_over == False:
                 flying = True
 
-        score_text = font.render(f'Score: {score}', True, (255, 255, 255))
+        score_text = font_score.render(f'Score: {score}', True, (255, 255, 255))
         screen.blit(score_text, (10, 10))
 
         pygame.display.update()
@@ -564,9 +573,8 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 # Load background image
 background_image = pygame.transform.scale(pygame.image.load("back.jpg"), (WIDTH, HEIGHT))
-
-# Fonts
-font = pygame.font.Font(None, 36)
+map = pygame.transform.scale(pygame.image.load("fire.jpg"),(WIDTH, HEIGHT))
+level_menu = pygame.transform.scale(pygame.image.load("level_menu.png"),(WIDTH, HEIGHT))
 
 # Function to display text on the screen
 def draw_text(text, font, color, x, y):
@@ -577,8 +585,8 @@ def draw_text(text, font, color, x, y):
 
 # Button class
 class Button:
-    def __init__(self, image, pos):
-        self.image = pygame.transform.scale(pygame.image.load(image), (215,145))
+    def __init__(self, image, pos, img_width, img_height):
+        self.image = pygame.transform.scale(pygame.image.load(image), (img_width, img_height))
         self.rect = self.image.get_rect()
         self.rect.topleft = pos
 
@@ -590,7 +598,7 @@ class Button:
 
 # Function for the main menu
 def main_menu():
-    play_button = Button('button2.png', (150, 470))
+    play_button = Button('button2.png', (150, 470), 215, 145)
 
     while True:
         screen.blit(background_image, (0, 0))
@@ -613,12 +621,12 @@ def main_menu():
 
 # Function for level selection menu
 def level_select():
-    level1_button = Button('button.png', (WIDTH//2 - 350, HEIGHT//2 + 70))
-    level2_button = Button('button.png', (WIDTH//2 - 100, HEIGHT//2 + 70))
-    level3_button = Button('button.png', (WIDTH//2 + 150, HEIGHT//2 + 70))
+    level1_button = Button('level10.png', (WIDTH//2 - 540, HEIGHT//2 - 300), 215, 215)
+    level2_button = Button('level20.png', (WIDTH//2 - 230, HEIGHT//2 - 180), 215, 215)
+    level3_button = Button('level30.png', (WIDTH//2 + 100, HEIGHT//2 - 85), 215, 215)
 
     while True:
-        screen.blit(background_image, (0, 0))
+        screen.blit(level_menu, (0, 0))
 
         # Draw level buttons
         level1_button.draw(screen)
