@@ -17,9 +17,8 @@ def game_over_menu(level):
 
     while True:
         screen.blit(map, (0, 0))
-        draw_text('Game Over', font_game_over, WHITE, WIDTH // 2 - 15, HEIGHT // 2)
+        draw_text('Game Over', font_game_over, (255,255,255,255), WIDTH // 2 - 15, HEIGHT // 2)
 
-        # Draw Replay and Main Menu buttons
         replay_button.draw(screen)
         main_menu_button.draw(screen)
 
@@ -153,7 +152,7 @@ def level1():
                                 break
 
                         if not overlaps:
-                            if random.random() < 0.03:  # 10% chance to spawn a special key
+                            if random.random() < 0.03:
                                 special_key = SpecialKey(key_x, key_y)
                                 special_flies.append(special_key)
                             else:
@@ -396,23 +395,19 @@ def level3():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption('The Prisoner of Azkaban')
 
-
-    #define game variables
     score = 0
     ground_scroll = 0
     scroll_speed = 4
     flying = False
     game_over = False
     pipe_gap = 270
-    pipe_frequency = 1500 #milliseconds
+    pipe_frequency = 1500
     last_pipe = pygame.time.get_ticks() - pipe_frequency
 
-
-    #load images
     bg = pygame.image.load('level_3/bg.png')
 
 
-    class Bird(pygame.sprite.Sprite):
+    class hippogriff(pygame.sprite.Sprite):
         def __init__(self, x, y):
             pygame.sprite.Sprite.__init__(self)
             self.images = []
@@ -459,7 +454,6 @@ def level3():
                         self.index = 0
                 self.image = self.images[self.index]
 
-                #rotate the bird
                 self.image = pygame.transform.rotate(self.images[self.index], self.vel * -2)
             else:
                 self.image = pygame.transform.rotate(self.images[self.index])
@@ -471,7 +465,6 @@ def level3():
             self.image = pygame.image.load('level_3/tower.png')
             self.rect = self.image.get_rect()
             self.score_counted = False
-            #position 1 is from the top, -1 is from the bottom
             if position == 1:
                 self.image = pygame.transform.flip(self.image, False, True)
                 self.rect.bottomleft = [x, y - int(pipe_gap / 2)]
@@ -485,29 +478,26 @@ def level3():
 
 
 
-    bird_group = pygame.sprite.Group()
+    hippogriff_group = pygame.sprite.Group()
     pipe_group = pygame.sprite.Group()
 
-    flappy = Bird(100, int(HEIGHT / 2))
+    flappy = hippogriff(100, int(HEIGHT / 2))
 
-    bird_group.add(flappy)
+    hippogriff_group.add(flappy)
 
     run = True
     while run:
 
         clock.tick(fps)
-
-        #draw background
         screen.blit(bg, (0,0))
 
-        bird_group.draw(screen)
-        bird_group.update()
+        hippogriff_group.draw(screen)
+        hippogriff_group.update()
         pipe_group.draw(screen)
 
-        #look for collision
-        for bird in bird_group:
+        for hippogriff in hippogriff_group:
             for pipe in pipe_group:
-                if pygame.sprite.collide_mask(bird, pipe):
+                if pygame.sprite.collide_mask(hippogriff, pipe):
                     game_over = True
                     mixer.music.stop()
                     action = game_over_menu(3)
@@ -515,11 +505,10 @@ def level3():
                         level3()    
                     elif action == 'main_menu':
                         main()
-                elif pipe.rect.right < bird.rect.left and not pipe.score_counted:
+                elif pipe.rect.right < hippogriff.rect.left and not pipe.score_counted:
                     score += 0.5
                     pipe.score_counted = True
 
-        #check if bird has hit the ground
         if flappy.rect.bottom >= 768:
             game_over = True
             flying = False
@@ -532,8 +521,6 @@ def level3():
 
 
         if game_over == False and flying == True:
-
-            #generate new pipes
             time_now = pygame.time.get_ticks()
             if time_now - last_pipe > pipe_frequency:
                 pipe_height = random.randint(-100, 100)
@@ -543,8 +530,6 @@ def level3():
                 pipe_group.add(top_pipe)
                 last_pipe = time_now
 
-
-            #draw and scroll the ground
             ground_scroll -= scroll_speed
             if abs(ground_scroll) > 35:
                 ground_scroll = 0
@@ -563,26 +548,21 @@ def level3():
         pygame.display.update()
 
 
-# Set up the screen dimensions
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Game Menu")
 
-# Colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-# Load background image
+
 background_image = pygame.transform.scale(pygame.image.load('Pygame/back.jpg'), (WIDTH, HEIGHT))
 map = pygame.transform.scale(pygame.image.load('Pygame/fire.jpg'),(WIDTH, HEIGHT))
 level_menu = pygame.transform.scale(pygame.image.load('Pygame/level_menu.png'),(WIDTH, HEIGHT))
 
-# Function to display text on the screen
+
 def draw_text(text, font, color, x, y):
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect()
     text_rect.center = (x, y)
     screen.blit(text_surface, text_rect)
 
-# Button class
 class Button:
     def __init__(self, image, pos, img_width, img_height):
         self.image = pygame.transform.scale(pygame.image.load(image), (img_width, img_height))
@@ -595,16 +575,13 @@ class Button:
     def is_clicked(self, mouse_pos):
         return self.rect.collidepoint(mouse_pos)
 
-# Function for the main menu
 def main_menu():
     play_button = Button('Pygame/button2.png', (150, 470), 215, 145)
 
     while True:
         screen.blit(background_image, (0, 0))
 
-        # Draw Play button
         play_button.draw(screen)
-
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -618,7 +595,6 @@ def main_menu():
                     if level:
                         return level
 
-# Function for level selection menu
 def level_select():
     level1_button = Button('Pygame/level1.png', (WIDTH//2 - 540, HEIGHT//2 - 300), 215, 215)
     level2_button = Button('Pygame/level2.png', (WIDTH//2 - 230, HEIGHT//2 - 180), 215, 215)
@@ -626,8 +602,6 @@ def level_select():
 
     while True:
         screen.blit(level_menu, (0, 0))
-
-        # Draw level buttons
         level1_button.draw(screen)
         level2_button.draw(screen)
         level3_button.draw(screen)
@@ -647,7 +621,6 @@ def level_select():
                 elif level3_button.is_clicked(mouse_pos):
                     return 3
 
-# Main function
 def main():
     selected_level = main_menu()
     if selected_level == 1:
